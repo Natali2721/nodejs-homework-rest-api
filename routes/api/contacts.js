@@ -63,6 +63,7 @@ router.delete("/:contactId", async (req, res, next) => {
 
 router.put("/:contactId", putContactValidation, async (req, res, next) => {
   try {
+    const { contactId } = req.params;
     const { name, email, phone } = req.body;
     const updatedContact = await updateContact(contactId, {
       name,
