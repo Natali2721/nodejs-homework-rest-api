@@ -4,11 +4,12 @@ const path = require("path");
 
 const contactsPath = path.join(__dirname, "contacts.json");
 
-const updateContacts = async (contacts) =>
+const updateContacts = async (contacts) => {
   await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+};
 
 const listContacts = async () => {
-  const data = await fs.readFile(contactsPath);
+  const data = await fs.readFile(contactsPath, "utf8");
   return JSON.parse(data);
 };
 
@@ -37,17 +38,26 @@ const addContact = async ({ name, email, phone }) => {
   return newContact;
 };
 
-const updateContact = async (contactId, { name, email, phone }) => {
+//const updateContact = async (contactId, { name, email, phone }) => {
+//  const contacts = await listContacts();
+//  const index = contacts.findIndex((item) => item.id === contactId);
+//  if (index === -1) {
+//    return null;
+//  }
+//  contacts[index] = { id: contactId, name, email, phone };
+//  await updateContacts(contacts);
+//  return contacts[index];
+//};
+const updateContact = async (id, data) => {
   const contacts = await listContacts();
-  const index = contacts.findIndex((item) => item.id === contactId);
+  const index = contacts.findIndex((item) => item.id === id);
   if (index === -1) {
     return null;
   }
-  contacts[index] = { id: contactId, name, email, phone };
+  contacts[index] = { id, ...data };
   await updateContacts(contacts);
   return contacts[index];
 };
-
 module.exports = {
   listContacts,
   getContactById,
