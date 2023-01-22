@@ -6,7 +6,10 @@ const {
   addContact,
   updateContact,
 } = require("../../models/contacts.js");
-const { contactValidation } = require("../../schemas/validation");
+const {
+  contactValidation,
+  putContactValidation,
+} = require("../../schemas/validation");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -58,7 +61,7 @@ router.delete("/:contactId", async (req, res, next) => {
   }
 });
 
-router.put("/:contactId", contactValidation, async (req, res, next) => {
+router.put("/:contactId", putContactValidation, async (req, res, next) => {
   try {
     const { name, email, phone } = req.body;
     const updatedContact = await updateContact(contactId, {
