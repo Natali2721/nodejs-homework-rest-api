@@ -67,5 +67,17 @@
     "name": "MooMoo",
     "email": "mailFoo@ukr.net",
     "phone": "233333332"
+  },
+  {
+    "id": "4ecee020-be30-4490-a878-313378386bf4",
+    "name": "MooMoo",
+    "email": "mailFoo@ukr.net",
+    "phone": "999777999"
+  },
+  {
+    "id": "26e9d71c-1713-474e-af66-33cffee57524",
+    "name": "Alice",
+    "email": "pharetra.ut@dictum.net",
+    "phone": 7799977
   }
 ]
