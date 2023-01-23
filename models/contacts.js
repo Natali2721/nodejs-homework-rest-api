@@ -38,25 +38,18 @@ const addContact = async ({ name, email, phone }) => {
   return newContact;
 };
 
-//const updateContact = async (contactId, { name, email, phone }) => {
-//  const contacts = await listContacts();
-//  const index = contacts.findIndex((item) => item.id === contactId);
-//  if (index === -1) {
-//    return null;
-//  }
-//  contacts[index] = { id: contactId, name, email, phone };
-//  await updateContacts(contacts);
-//  return contacts[index];
-//};
 const updateContact = async (id, data) => {
   const contacts = await listContacts();
-  const index = contacts.findIndex((item) => item.id === id);
-  if (index === -1) {
-    return null;
-  }
-  contacts[index] = { id, ...data };
-  await updateContacts(contacts);
-  return contacts[index];
+  let newContact;
+  const updatedContacts = contacts.map((contact) => {
+    if (contact.id === id) {
+      newContact = { ...contact, ...data };
+      return newContact;
+    }
+    return contact;
+  });
+  await updateContacts(updatedContacts);
+  return newContact;
 };
 module.exports = {
   listContacts,
