@@ -64,12 +64,8 @@ router.delete("/:contactId", async (req, res, next) => {
 router.put("/:contactId", putContactValidation, async (req, res, next) => {
   try {
     const { contactId } = req.params;
-    const { name, email, phone } = req.body;
-    const updatedContact = await updateContact(contactId, {
-      name,
-      email,
-      phone,
-    });
+    const newData = req.body;
+    const updatedContact = await updateContact(contactId, newData);
 
     if (!updatedContact) {
       res.status(400).json({ message: "Not found" });
