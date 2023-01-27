@@ -1,5 +1,5 @@
 const Contact = require("../../models/contact");
-const { updateFavoriteSchema } = require("../../schema/schema");
+const { updateFavoriteSchema } = require("../../schema/validation");
 
 async function updateStatusContact(contactId, body) {
   const result = await Contact.findByIdAndUpdate(contactId, body, {
