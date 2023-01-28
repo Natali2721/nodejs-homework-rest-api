@@ -1,6 +1,6 @@
 const { isValidObjectId } = require("mongoose");
 
-const isValidId = (req, res, next) => {
+const validateIdParam = (req, res, next) => {
   const { contactId } = req.params;
   const result = isValidObjectId(contactId);
   if (!result) {
@@ -9,4 +9,4 @@ const isValidId = (req, res, next) => {
   next();
 };
 
-module.exports = isValidId;
+module.exports = validateIdParam;
