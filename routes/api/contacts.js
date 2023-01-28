@@ -1,8 +1,13 @@
 const express = require("express");
 
 const controller = require("../../controllers/contacts");
+const {
+  addContactValidation,
+  updateFavoriteContactValidation,
+  putContactValidation,
+} = require("../../schema/validation");
 
-const { controllerWrapper, isValidId } = require("../../helpers");
+const { controllerWrapper, validateIdParam } = require("../../helpers");
 
 const router = express.Router();
 
@@ -10,27 +15,33 @@ router.get("/", controllerWrapper(controller.getAllContacts));
 
 router.get(
   "/:contactId",
-  isValidId,
+  validateIdParam,
   controllerWrapper(controller.getContactById)
 );
 
-router.post("/", controllerWrapper(controller.addContact));
+router.post(
+  "/",
+  addContactValidation,
+  controllerWrapper(controller.addContact)
+);
 
 router.delete(
   "/:contactId",
-  isValidId,
+  validateIdParam,
   controllerWrapper(controller.removeContactById)
 );
 
 router.put(
   "/:contactId",
-  isValidId,
+  putContactValidation,
+  validateIdParam,
   controllerWrapper(controller.updateContactById)
 );
 
 router.patch(
   "/:contactId/favorite",
-  isValidId,
+  updateFavoriteContactValidation,
+  validateIdParam,
   controllerWrapper(controller.updateFavorite)
 );
 
