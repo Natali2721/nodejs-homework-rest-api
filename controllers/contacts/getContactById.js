@@ -8,10 +8,10 @@ const getContactById = async (req, res) => {
     "-createdAt -updatedAt"
   );
   if (!contact) {
-    res.status(404).json({ message: "Not found" });
+    res.status(404).json({ code: 404, message: "Not found" });
     return;
   }
-  res.status(200).json({ contact });
+  res.status(200).json(contact);
 };
 
 module.exports = getContactById;
