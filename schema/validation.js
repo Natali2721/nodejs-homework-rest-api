@@ -26,7 +26,7 @@ module.exports = {
         .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
         .optional(),
       phone: Joi.number().optional(),
-    });
+    }).min(1);
 
     const validationResult = schema.validate(req.body);
     if (validationResult.error) {
