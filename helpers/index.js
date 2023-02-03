@@ -1,7 +1,11 @@
 const controllerWrapper = require("./controllerWrapper");
-const validateIdParam = require("./isValidId");
+
+const handleMongooseError = require("./handleMongooseError");
+
+const HttpError = require("./httpErrorsHandler");
 
 module.exports = {
   controllerWrapper,
-  validateIdParam,
+  handleMongooseError,
+  HttpError,
 };
