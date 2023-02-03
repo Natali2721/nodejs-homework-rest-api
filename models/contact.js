@@ -1,4 +1,6 @@
 const { Schema, model } = require("mongoose");
+const Joi = require("joi");
+const { handleMongooseError } = require("../helpers");
 
 const contactSchema = new Schema(
   {
@@ -16,19 +18,42 @@ const contactSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
   },
   { versionKey: false, timestamps: true }
 );
 
-const handleSaveErrors = (error, data, next) => {
-  const { name, code } = error;
-  error.status = name === "MongoServerError" && code === 11000 ? 409 : 400;
+contactSchema.post("save", handleMongooseError);
 
-  next();
+const addContactSchema = Joi.object({
+  name: Joi.string().min(3).max(30).required(),
+  email: Joi.string()
+    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
+    .required(),
+  phone: Joi.number().min(7).required(),
+  favorite: Joi.boolean(),
+});
+const updateContactSchema = Joi.object({
+  name: Joi.string().min(3).max(30).optional(),
+  email: Joi.string()
+    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
+    .optional(),
+  phone: Joi.number().optional(),
+}).min(1);
+
+const updateFavoriteSchema = Joi.object({
+  favorite: Joi.boolean().required(),
+});
+const schemas = {
+  addContactSchema,
+  updateContactSchema,
+  updateFavoriteSchema,
 };
-
-contactSchema.post("save", handleSaveErrors);
 
 const Contact = model("contact", contactSchema);
 
-module.exports = Contact;
+module.exports = { Contact, schemas };
