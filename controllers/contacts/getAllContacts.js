@@ -20,7 +20,7 @@ const getAllContacts = async (req, res) => {
       limit,
     }).populate("owner", "name email");
   } else {
-    console.log("noFavoriteQuery".yellow);
+    console.log("favoriteQuery".yellow);
     contacts = await Contact.find(
       { owner, favorite },
       "-createdAt -updatedAt",
