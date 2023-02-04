@@ -11,7 +11,7 @@ const getAllContacts = async (req, res) => {
   //}).populate("owner", "name email");
   let contacts;
   const { favorite } = req.query;
-  const parsedFavorite = JSON.parse(favorite);
+
   //console.log(favorite);
   //console.log(parsedFavorite);
 
@@ -22,6 +22,7 @@ const getAllContacts = async (req, res) => {
       limit,
     }).populate("owner", "name email");
   } else {
+    const parsedFavorite = JSON.parse(favorite);
     console.log("favoriteQuery".yellow);
     contacts = await Contact.find(
       { $and: [{ owner }, { favorite: parsedFavorite }] },
