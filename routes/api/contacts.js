@@ -1,47 +1,55 @@
 const express = require("express");
 
 const controller = require("../../controllers/contacts");
-const {
-  addContactValidation,
-  updateFavoriteContactValidation,
-  putContactValidation,
-} = require("../../schema/validation");
 
-const { controllerWrapper, validateIdParam } = require("../../helpers");
+const { controllerWrapper } = require("../../helpers");
+const {
+  validateIdParam,
+  validateBody,
+  authenticate,
+} = require("../../middlewares");
+const { schemas } = require("../../models/contact");
 
 const router = express.Router();
 
-router.get("/", controllerWrapper(controller.getAllContacts));
+router.get("/", authenticate, controllerWrapper(controller.getAllContacts));
 
 router.get(
   "/:contactId",
+  authenticate,
   validateIdParam,
   controllerWrapper(controller.getContactById)
 );
 
 router.post(
   "/",
-  addContactValidation,
+  authenticate,
+  validateBody(schemas.addContactSchema, "missing required fields"),
   controllerWrapper(controller.addContact)
 );
 
 router.delete(
   "/:contactId",
+  authenticate,
   validateIdParam,
   controllerWrapper(controller.removeContactById)
 );
 
 router.put(
   "/:contactId",
-  putContactValidation,
+  authenticate,
   validateIdParam,
+  validateBody(schemas.updateContactSchema),
+
   controllerWrapper(controller.updateContactById)
 );
 
 router.patch(
   "/:contactId/favorite",
-  updateFavoriteContactValidation,
+  authenticate,
   validateIdParam,
+  validateBody(schemas.updateFavoriteSchema),
+
   controllerWrapper(controller.updateFavorite)
 );
 
