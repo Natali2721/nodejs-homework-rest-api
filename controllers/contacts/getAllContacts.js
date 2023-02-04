@@ -11,7 +11,9 @@ const getAllContacts = async (req, res) => {
   //}).populate("owner", "name email");
   let contacts;
   const { favorite } = req.query;
-  console.log(favorite);
+  const parsedFavorite = JSON.parse(favorite);
+  //console.log(favorite);
+  //console.log(parsedFavorite);
 
   if (!favorite) {
     console.log("noFavoriteQuery".yellow);
@@ -22,7 +24,7 @@ const getAllContacts = async (req, res) => {
   } else {
     console.log("favoriteQuery".yellow);
     contacts = await Contact.find(
-      { owner, favorite },
+      { $and: [{ owner }, { favorite: parsedFavorite }] },
       "-createdAt -updatedAt",
       {
         skip,
