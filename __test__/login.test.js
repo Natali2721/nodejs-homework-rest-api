@@ -18,7 +18,7 @@ describe("Test login controller", () => {
 
   test("login return status 200", async () => {
     const response = await request(app)
-      .post("/api/users/login")
+      .post("/api/users/login", login)
       .send({ email: "polly@ukr.net", password: "211212" });
     //console.log(response.body.data);
 
