@@ -23,11 +23,16 @@ describe("Test login controller", () => {
     //console.log(response.body.data);
 
     const { token, user } = response.body.data;
+    const userExample = {
+      email: "polly@ukr.net",
+      subscription: "starter",
+    };
     //console.log(token);
     //console.log(user);
     expect(response.status).toEqual(200);
     expect(token).toBeDefined();
     expect(typeof user).toBe("object");
+    expect(user).toMatchObject(userExample);
     expect(typeof user.email).toBe("string");
     expect(typeof user.subscription).toBe("string");
   });
