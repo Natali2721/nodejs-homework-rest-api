@@ -1,5 +1,5 @@
 const getCurrent = (req, res) => {
-  const { email, subscription } = req.user;
+  const { email, subscription, avatarURL } = req.user;
 
   res.status(200).json({
     status: "Ok",
@@ -8,6 +8,7 @@ const getCurrent = (req, res) => {
       user: {
         email,
         subscription,
+        avatarURL,
       },
     },
   });
